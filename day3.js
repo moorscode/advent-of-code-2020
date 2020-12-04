@@ -7,10 +7,28 @@ const data = fs.readFileSync('map.layout.txt', 'utf8');
 // Create 2-dimensional array:
 const map = data.split('\n').map((line) => line && line.split(''));
 
-const steps = {
-    x: 3,
-    y: 1,
-};
+const stepList = [
+    {
+        x: 1,
+        y: 1,
+    },
+    {
+        x: 3,
+        y: 1,
+    },
+    {
+        x: 5,
+        y: 1,
+    },
+    {
+        x: 7,
+        y: 1,
+    },
+    {
+        x: 1,
+        y: 2,
+    }
+]
 
 const position = {
     x: 0,
@@ -18,20 +36,32 @@ const position = {
 }
 
 let trees = 0;
+const treeList = [];
 
-// until we are at the bottom; continue;
-for (let y = 0; y < map.length-1; y++) {
-    position.x += steps.x;
-    position.y += steps.y;
+for (let s = 0; s < stepList.length; s++) {
+    // until we are at the bottom; continue;
+    const steps = stepList[s];
+    position.x = 0;
+    position.y = 0;
+    trees = 0;
 
-    // overflow
-    position.x %= map[y].length;
+    for (let y = 0; y < map.length - 1; y++) {
+        position.x += steps.x;
+        position.y += steps.y;
 
-    console.log(position);
+        if (position.y >= map.length ) {
+            break;
+        }
 
-    if ( map[position.y][position.x] === '#' ) {
-        trees ++;
+        // overflow
+        position.x %= map[y].length;
+
+        if (map[position.y][position.x] === '#') {
+            trees++;
+        }
     }
+
+    treeList.push(trees);
 }
 
-console.log(trees);
+console.log(treeList.reduce((a, b) => a * b));
