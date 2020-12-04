@@ -7,21 +7,19 @@ const list = data.split('\n')
             const parts = item.split(' ');
             return {
                 character: parts[1].substr(0, 1),
-                minimum: parseInt(parts[0].split('-')[0], 10),
-                maximum: parseInt(parts[0].split('-')[1], 10),
+                position1: parseInt(parts[0].split('-')[0], 10)-1,
+                position2: parseInt(parts[0].split('-')[1], 10)-1,
                 password: parts[2],
             };
         }
-    )
-    .map((item) => {
-        item.password = item.password.split('').sort().join('')
-        return item;
-    })
+    );
 
 const valid = list.filter((entry) => {
-    const reg = new RegExp('(^|[^' + entry.character + '])' + entry.character + '{' + entry.minimum + ',' + entry.maximum + '}([^' + entry.character + ']|$)', '');
-    console.log(reg);
-    return entry.password.match(reg);
+    return (
+        (entry.password.substr(entry.position1,1) === entry.character && entry.password.substr(entry.position2,1) !== entry.character)
+            ||
+        (entry.password.substr(entry.position1,1) !== entry.character && entry.password.substr(entry.position2,1) === entry.character)
+    );
 });
 
 console.log(valid.length);
