@@ -10,23 +10,23 @@ const rows = data.split('\n')
 
         const rowRange = {start: 0, finish: 127};
 
-        for ( const row in rows ) {
-            if ( rows[row] === 'F' ) {
-                rowRange.finish -= Math.round((rowRange.finish-rowRange.start)/2);
+        for (const row in rows) {
+            if (rows[row] === 'F') {
+                rowRange.finish -= Math.round((rowRange.finish - rowRange.start) / 2);
             }
-            if ( rows[row] === 'B' ) {
-                rowRange.start += Math.round((rowRange.finish-rowRange.start)/2);
+            if (rows[row] === 'B') {
+                rowRange.start += Math.round((rowRange.finish - rowRange.start) / 2);
             }
         }
 
-        const seatRange = {start:0, finish: 7};
+        const seatRange = {start: 0, finish: 7};
 
-        for ( const seat in seats ) {
-            if ( seats[seat] === 'R' ) {
-                seatRange.finish -= Math.round((seatRange.finish-seatRange.start)/2);
+        for (const seat in seats) {
+            if (seats[seat] === 'L') {
+                seatRange.finish -= Math.round((seatRange.finish - seatRange.start) / 2);
             }
-            if ( seats[seat] === 'L' ) {
-                seatRange.start += Math.round((seatRange.finish-seatRange.start)/2);
+            if (seats[seat] === 'R') {
+                seatRange.start += Math.round((seatRange.finish - seatRange.start) / 2);
             }
         }
 
@@ -36,13 +36,15 @@ const rows = data.split('\n')
         }
     });
 
-const seatIds = rows.map( (row ) => {
+const seatIds = rows.map((row) => {
     return row.row * 8 + row.seat;
 });
 
-console.log(rows);
-console.log(seatIds);
-
-console.log(seatIds.sort(function(a, b) {
-    return a - b;
-}).reverse()[0]);
+for (let index = 0; index < seatIds.length; index++) {
+    if (
+        seatIds.includes(seatIds[index]+2) &&
+        !seatIds.includes(seatIds[index]+1) // looking for this one..
+    ) {
+        console.log(seatIds[index]+1);
+    }
+}
