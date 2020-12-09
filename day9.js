@@ -37,7 +37,12 @@ main: for (let i = 0; i < original.length; i++) {
     const list = [];
     for (let j = i; j < i + original.length; j++) {
         sum += original[j];
+        if (sum > invalid) {
+            continue main;
+        }
+
         list.push(original[j]);
+
         if (sum === invalid) {
             let lowest = Math.min.apply(Math, list);
             let highest = Math.max.apply(Math, list);
