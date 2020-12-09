@@ -1,6 +1,6 @@
 var fs = require( "fs" );
 
-const data = fs.readFileSync( "day3.list.txt", "utf8" );
+const data = fs.readFileSync( "day03.list.txt", "utf8" );
 
 // The data repeats horizontally. -- use overflow
 

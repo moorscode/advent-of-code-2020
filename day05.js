@@ -1,6 +1,6 @@
 var fs = require( "fs" );
 
-const data = fs.readFileSync( "day5.list.txt", "utf8" );
+const data = fs.readFileSync( "day05.list.txt", "utf8" );
 const plane = data.split( "\n" )
 	.filter( ( x ) => x )
 	.map( ( line ) => line.split( "" ) )

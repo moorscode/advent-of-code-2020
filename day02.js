@@ -1,6 +1,6 @@
 var fs = require( "fs" );
 
-const data = fs.readFileSync( "day2.list.txt", "utf8" );
+const data = fs.readFileSync( "day02.list.txt", "utf8" );
 const list = data.split( "\n" )
 	.filter( ( x ) => x )
 	.map( ( item ) => {

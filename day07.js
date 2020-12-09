@@ -1,6 +1,6 @@
 var fs = require( "fs" );
 
-const data = fs.readFileSync( "day7.list.txt", "utf8" );
+const data = fs.readFileSync( "day07.list.txt", "utf8" );
 
 // Set up data.
 const rules = data.split( "\n" )

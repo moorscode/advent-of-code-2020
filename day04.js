@@ -1,6 +1,6 @@
 var fs = require( "fs" );
 
-const data = fs.readFileSync( "day4.list.txt", "utf8" );
+const data = fs.readFileSync( "day04.list.txt", "utf8" );
 
 const requiredFields = [
 	"byr",
