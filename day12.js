@@ -10,32 +10,22 @@ const commands = data.split( "\n" ).map( ( row ) => {
 	};
 } );
 
-// Facing X and Y + position of the boat.
-let directionX = 1;
-let directionY = 0;
+// Ship coords.
 let x = 0;
 let y = 0;
 
+// Waypoint offset from the ship.
+let x1 = 10;
+let y1 = -1;
+
 function turn( clockwise, times ) {
-	const options = [
-		[ -1, 0 ], // North
-		[ 0, 1 ], // East
-		[ 1, 0 ], // South
-		[ 0, -1 ], // West
-	];
+	const multiplyX = clockwise ? -1 : 1;
+	const multiplyY = clockwise ? 1 : -1;
 
-	const currentIndex = options.findIndex( ( item ) => item[ 0 ] === directionY && item[ 1 ] === directionX );
+	const x1Before = x1;
 
-	let nextIndex = ( currentIndex + clockwise );
-	if ( nextIndex >= options.length ) {
-		nextIndex -= options.length;
-	}
-	if ( nextIndex < 0 ) {
-		nextIndex += options.length;
-	}
-
-	directionY = options[ nextIndex ][ 0 ];
-	directionX = options[ nextIndex ][ 1 ];
+	x1 = y1 * multiplyX;
+	y1 = x1Before * multiplyY;
 
 	if ( times > 1 ) {
 		times--;
@@ -43,10 +33,10 @@ function turn( clockwise, times ) {
 	}
 }
 function turnLeft( times ) {
-	turn( -1, times );
+	turn( false, times );
 }
 function turnRight( times ) {
-	turn( 1, times );
+	turn( true, times );
 }
 
 // eslint-disable-next-line guard-for-in
@@ -55,20 +45,20 @@ for ( const index in commands ) {
 
 	switch ( entry.command ) {
 		case "F":
-			x += directionX * entry.length;
-			y += directionY * entry.length;
+			x += x1 * entry.length;
+			y += y1 * entry.length;
 			break;
 		case "N":
-			y -= entry.length;
+			y1 -= entry.length;
 			break;
 		case "S":
-			y += entry.length;
+			y1 += entry.length;
 			break;
 		case "E":
-			x += entry.length;
+			x1 += entry.length;
 			break;
 		case "W":
-			x -= entry.length;
+			x1 -= entry.length;
 			break;
 		case "L":
 			turnLeft( entry.length / 90 );
