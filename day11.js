@@ -1,4 +1,3 @@
-/* eslint-disable complexity */
 var fs = require( "fs" );
 
 const data = fs.readFileSync( "day11.list.txt", "utf8" );

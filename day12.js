@@ -1,4 +1,3 @@
-/* eslint-disable complexity */
 var fs = require( "fs" );
 
 // Prep data.
