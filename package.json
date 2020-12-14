@@ -10,5 +10,10 @@
   "devDependencies": {
     "eslint": "^7.12.1",
     "eslint-config-yoast-base": "github:moorscode/eslint-config-yoast-base"
+  },
+  "dependencies": {
+    "bignum": "^0.13.1",
+    "mathjs": "^8.1.0",
+    "nodejs-chinese-remainder": "^0.0.6"
   }
 }
