@@ -86,11 +86,9 @@ for ( const maskEntry in masks ) {
 	}
 }
 
-console.log( "hier" );
-console.log( memory );
-
 let total = 0;
 for ( const m in memory ) {
 	total += memory[ m ];
 }
+
 console.log( total );
