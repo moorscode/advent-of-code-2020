@@ -29,12 +29,7 @@ const tickets = preTickets.filter( ( x )=>x ).map( ( row ) => {
 // Add my ticket to all tickets.
 tickets.unshift( myTicket );
 
-
-let invalidTotal = 0;
-const invalidFields = [];
-
-for ( let t = 0; t < tickets.length; t++ ) {
-	const ticket = tickets[ t ];
+const validTickets = tickets.filter( ( ticket ) => {
 	nextField: for ( let x = 0; x < ticket.length; x++ ) {
 		for ( let i = 0; i < allRules.length; i++ ) {
 			const rule = allRules[ i ];
@@ -44,10 +39,64 @@ for ( let t = 0; t < tickets.length; t++ ) {
 					 continue nextField;
 			}
 		}
-		invalidTotal += ticket[ x ];
-		invalidFields.push( ticket[ x ] );
+		return false;
+	}
+	return true;
+} );
+
+const labels = rules.reduce( ( acc, rule ) => {
+	acc[ rule.label ] = new Array( rules.length ).fill().map( ( _, idx ) => idx );
+	return acc;
+}, {} );
+
+validTickets.map( ( ticket ) => {
+	for ( let x = 0; x < ticket.length; x++ ) {
+		for ( let i = 0; i < rules.length; i++ ) {
+			const rule = rules[ i ];
+			if ( labels[ rule.label ].length === 1 ) {
+				continue;
+			}
+			if (
+				( ticket[ x ] >= rule.ranges[ 0 ][ 0 ] && ticket[ x ] <= rule.ranges[ 0 ][ 1 ] ) ||
+			( ticket[ x ] >= rule.ranges[ 1 ][ 0 ] && ticket[ x ] <= rule.ranges[ 1 ][ 1 ] )
+			) {
+			// Ok;
+			} else {
+				labels[ rule.label ] = labels[ rule.label ].filter( ( y ) => y !== x );
+			}
+		}
+	}
+} );
+
+let changed = true;
+while ( changed ) {
+	changed = false;
+	for ( const label in labels ) {
+		if ( labels[ label ].length === 1 ) {
+			continue;
+		} else {
+			changed = true;
+
+			labels[ label ] = labels[ label ].filter(
+				( item ) => {
+					for ( const label in labels ) {
+						if ( labels[ label ].length === 1 ) {
+							if ( labels[ label ][ 0 ] === item ) {
+								return false;
+							}
+						}
+					}
+					return true;
+				} );
+		}
 	}
 }
 
-console.log( invalidFields );
-console.log( invalidTotal );
+let result = 1;
+for ( const label in labels ) {
+	if ( label.substr( 0, 9 ) === "departure" ) {
+		result *= myTicket[ labels[ label ] ];
+	}
+}
+
+console.log( result );
