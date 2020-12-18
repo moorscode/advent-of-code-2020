@@ -5,12 +5,31 @@ const data = fs.readFileSync( "day18.list.txt", "utf8" );
 const lines = data.split( "\n" );
 
 function calculate( formula ) {
-	const items = formula.replace( "(", "" ).split( " " );
+	while ( true ) {
+		const additions = formula.match( /\d+(\s?\+\s?\d+)+/g );
+		if ( ! additions ) {
+			break;
+		}
+		for ( let a = 0; a < additions.length; a++ ) {
+			const value = eval( additions[ a ] );
+			formula = formula.replace( additions[ a ], " " + value + " " );
+		}
+	}
+
+	while ( formula.indexOf( "  " ) !== -1 ) {
+		formula = formula.replace( "  ", " " );
+	}
+	console.log( formula );
+
+	const items = formula.replace( "(", "" ).replace( ")", "" ).trim().split( " " );
 	console.log( items );
 
 	let value = parseInt( items.shift(), 10 );
 
 	for ( let i = 0; i < items.length; i += 2 ) {
+		if ( items[ i ] === " " ) {
+			continue;
+		}
 		switch ( items[ i ] ) {
 			case "+":
 				value += parseInt( items[ i + 1 ], 10 );
